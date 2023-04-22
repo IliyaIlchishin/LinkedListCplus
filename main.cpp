@@ -8,6 +8,7 @@ private:
     public:
         int value;
         Node* nextNode;
+        Node* previousNode;
     };
 
     Node* head;
@@ -37,16 +38,17 @@ public:
         tail = node;
     }
 
-    void add(int value, Node* previousNode) {
-        if (previousNode == nullptr) {
-            addLast(value);
-            return;
-        }
-        Node* node = new Node();
+    void add(int value) {
+        Node* node = new Node;
         node->value = value;
-        node->nextNode = previousNode->nextNode;
-        previousNode->nextNode = node;
-        if (previousNode == tail) {
+        node->nextNode = nullptr;
+
+        if (head == nullptr) {
+            node->previousNode = nullptr;
+            head = tail = node;
+        } else {
+            node->previousNode = tail;
+            tail->nextNode = node;
             tail = node;
         }
     }
@@ -60,7 +62,7 @@ public:
             tail = head;
         }
     }
-
+    // вытаскиеваем головное значение
     int pop() {
         if (head == nullptr) {
             throw std::runtime_error("Stack is empty");
@@ -74,7 +76,7 @@ public:
         }
         return result;
     }
-
+    // разворот
     void reverse() {
         Node* node = head;
         Node* temp = head;
@@ -101,11 +103,13 @@ public:
 
 int main() {
     LinkedList a;
-    a.addLast(275);
-    a.addLast(35);
-    a.addLast(12);
-    int b = a.pop();
-
+    a.add(1);
+    a.push(2);
+    a.push(3);
+    a.addLast(4);
+    a.add(5);
+    a.push(6);
+    a.addLast(7);
     a.print();
 
     return 0;
